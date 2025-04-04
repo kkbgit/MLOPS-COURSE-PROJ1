@@ -1,0 +1,121 @@
+TCL_SUBDIR=			@VENDOR_TCL_SUBDIR@
+TCLX_SUBDIR=		@VENDOR_TCLX_SUBDIR@
+TCLLIB_SUBDIR=		@VENDOR_TCLLIB_SUBDIR@
+SIGNIFY_SUBDIR=		signify-osx
+
+PREFIX=			@prefix@
+DESTROOT=   		@abs_top_builddir@/vendor/vendor-destroot
+
+.PHONY: all clean distclean install destroot test
+.PHONY: destroot-tcl destroot-tclx destroot-tcllib destroot-signify
+.PHONY: install-tcl install-tclx install-tcllib install-signify
+.PHONY: %-tcl %-tclx %-tcllib %-signify
+
+# for make all, run destroot (where destroot will depend on all of each
+# subpackage)
+all: destroot
+
+%-tcl:
+	@echo ===\> making $(@:%-tcl=%) in ${DIRPRFX}@VENDOR_TCL_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCL_SUBDIR@ $(@:%-tcl=%)
+
+%-tclx:
+	@echo ===\> making $(@:%-tclx=%) in ${DIRPRFX}@VENDOR_TCLX_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLX_SUBDIR@ $(@:%-tclx=%)
+
+# tclx also links against libtclstub
+all-tclx: all-tcl
+
+%-tcllib:
+	@echo ===\> making $(@:%-tcllib=%) in ${DIRPRFX}@VENDOR_TCLLIB_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLLIB_SUBDIR@ TCLSH_PROG=@INTREE_TCLSH@ $(@:%-tcllib=%)
+
+# tcllib requires a working tclsh
+all-tcllib: all-tcl
+
+%-signify:
+	@echo ===\> making $(@:%-signify=%) in ${DIRPRFX}${SIGNIFY_SUBDIR}
+	@umask 0022; $(MAKE) -C ${SIGNIFY_SUBDIR} $(@:%-signify=%)
+
+DESTROOT_TARGETS=   destroot-tcl destroot-tclx destroot-tcllib
+ifneq (@OS_PLATFORM@,linux)
+DESTROOT_TARGETS+=   destroot-signify
+endif
+
+destroot: $(DESTROOT_TARGETS)
+destroot-tcl: all-tcl
+	@echo ===\> staging to destroot in ${DIRPRFX}@VENDOR_TCL_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCL_SUBDIR@ DESTDIR=${DESTROOT} @VENDOR_TCL_INSTALL@
+
+destroot-tclx: all-tclx
+	@echo ===\> staging to destroot in ${DIRPRFX}@VENDOR_TCLX_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLX_SUBDIR@ DESTDIR=${DESTROOT} @VENDOR_TCLX_INSTALL@
+
+destroot-tcllib: all-tcllib
+	@echo ===\> staging to destroot in ${DIRPRFX}@VENDOR_TCLLIB_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLLIB_SUBDIR@ DESTDIR=${DESTROOT} TCLSH_PROG=@INTREE_TCLSH@ @VENDOR_TCLLIB_INSTALL@
+	@chmod -R ugo+rX ${DESTROOT}${PREFIX}/libexec/macports/lib/tcllib*
+
+destroot-signify:
+	@echo ===\> staging to destroot in ${DIRPRFX}${SIGNIFY_SUBDIR}
+	@umask 0022; $(MAKE) -C ${SIGNIFY_SUBDIR} install PREFIX=${DESTROOT}${PREFIX}/libexec/macports
+
+INSTALL_TARGETS=    install-tcl install-tclx install-tcllib
+ifneq (@OS_PLATFORM@,linux)
+INSTALL_TARGETS+=   install-signify
+endif
+
+install: $(INSTALL_TARGETS)
+
+TCL_PACKAGE_PATH=@TCL_PACKAGE_PATH@
+TCL_PREFIX=@TCL_PREFIX@
+OLD_TCL_FILES=	$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.4/http-2.7.1{2,3}.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.6/http-2.9.5.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.4/platform-1.0.1{2,3,4,8}.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.5/msgcat-1.5.2.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.5/tcltest-2.3.{5,8}.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.5/tcltest-2.5.{3,5}.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8/8.6/tdbc/sqlite3-1.1.{3,5}.tm \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tcl8.5 \
+				$(DESTDIR)$(TCL_PREFIX)/bin/tclsh8.5 \
+				$(DESTDIR)$(TCL_PREFIX)/lib/libtcl8.5@SHLIB_SUFFIX@ \
+				$(DESTDIR)$(TCL_PREFIX)/lib/libtclstub8.5.a \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/thread2.7.{0,2,3} \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/thread2.8.{7,8} \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/itcl4.2.{2,3} \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/sqlite3.{36,40}.0 \
+				$(DESTDIR)$(TCL_PACKAGE_PATH)/tdbc{,mysql,odbc,postgres}1.1.{3,5}
+
+install-tcl:
+	rm -rf $(OLD_TCL_FILES)
+	@echo ===\> making $(@:%-tcl=%) in ${DIRPRFX}@VENDOR_TCL_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCL_SUBDIR@ @VENDOR_TCL_INSTALL@
+
+install-tclx:
+	rm -rf $(DESTDIR)$(TCL_PACKAGE_PATH)/tclx8.4
+	@echo ===\> making $(@:%-tclx=%) in ${DIRPRFX}@VENDOR_TCLX_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLX_SUBDIR@ @VENDOR_TCLX_INSTALL@
+
+install-tcllib:
+	rm -rf $(DESTDIR)$(TCL_PACKAGE_PATH)/tcllib1.1{5,7,8}
+	@echo ===\> making $(@:%-tcllib=%) in ${DIRPRFX}@VENDOR_TCLLIB_SUBDIR@
+	@umask 0022; $(MAKE) -C @VENDOR_TCLLIB_SUBDIR@ TCLSH_PROG=@INTREE_TCLSH@ @VENDOR_TCLLIB_INSTALL@
+	@chmod -R ugo+rX $(DESTDIR)${PREFIX}/libexec/macports/lib/tcllib*
+
+install-signify:
+	@echo ===\> making $(@:%-signify=%) in ${DIRPRFX}${SIGNIFY_SUBDIR}
+	@umask 0022; $(MAKE) -C ${SIGNIFY_SUBDIR} install PREFIX=$(DESTDIR)${PREFIX}/libexec/macports
+
+test:
+
+clean: clean-tcl clean-tcllib clean-tclx clean-signify
+	rm -rf ${DESTROOT}
+
+distclean: distclean-tcl distclean-tcllib distclean-tclx distclean-signify
+	rm -f Makefile
+	rm -rf vendor-destroot
+	rm -f tclsh
+
+codesign:: signify-osx/signify tcl/unix/libtcl8.6.dylib tcl/unix/tclsh tclx/libtclx8.6.dylib tcl/unix/pkgs/itcl4.2.4/libitcl4.2.4.dylib tcl/unix/pkgs/tdbc1.1.7/libtdbc1.1.7.dylib tcl/unix/pkgs/tdbcpostgres1.1.7/libtdbcpostgres1.1.7.dylib tcl/unix/pkgs/thread2.8.9/libthread2.8.9.dylib tcl/unix/pkgs/tdbcmysql1.1.7/libtdbcmysql1.1.7.dylib tcl/unix/pkgs/tdbcodbc1.1.7/libtdbcodbc1.1.7.dylib tcl/unix/pkgs/sqlite3.44.2/libsqlite3.44.2.dylib
+	../src/codesign.sh $?
+

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "rock-wonder-347805",
+  "private_key_id": "32d6bb51c4b45e705f1bc464b4421355b0fd83a2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCNq2U69WbmWWfB\nSeJH7OIz+b5bOLv0XJmeW/CqzIt/2q6hZSyVYEA/eel58gHbL8Y0JYReBKAuyOgf\n9T6FOyara4UOubAfO63K+mhS1Q6RzBk3D5f6TOCXuny0TjUDbfDTUw4mkEvrkCHE\nZAu8s31oMboO4P8NIff/mdWbtOG+b+yfHgfN4fi1MQXkRHtxmPQtDcwgtwMENsde\nZnEZK1vIr44sOKlQvLeYqYmhMxzI1ZFqZSldVExc8O8NS9uRTINU3Mt+bppOo3PX\n7R5SFRkLWI9f6VTodacL4xurnfx2jV7Nv33aRTAZD77N6IzzhnZ+g2VaO2Ws/0kl\nar3zhc2bAgMBAAECggEAIztlVQjTuuSwL3s66a1JQijRhOkyoR5oW+A8lZWB+d1+\nQYgiUtHZmI+ul1Ouz35tmelcpm8bEReI1u3MSyD/SHFYaWWXneTfH1QwHq16zpqG\nCNH5d1eoIUPRIJw0hfJRCpUkt0V6hA5Xv3osCxVOUlvPjES7WV5ByVDONUeCPrRD\nVji5qflcQGmw3NTgACTwIHjelLuI2/BEYYtz5rSzlVq0/P36XUHAc2MQkqTh4rr4\nD0//3dzgjkgb0/eE/6AQE+5n2k3OVyiBZb7+w2mmZDqlyEZYfaINpwvmcVOTNfNJ\ncp1DxJhEr5Zkufb5c6xmuEpT9xth/sZY1rUHHrqhHQKBgQDBR1GxpG2qotXtaooc\n0lmoLdtlQ+pjZcnogjkw1OQhxgBSXRkD6g9x8H2To+qG+pmOj56U0Av1nAzxUO9r\nMh1DginjBujnY775pg5+MKU7OegRmyyxs1YAeJdC+FeBDLOVYxYh4aaC4tSM+az7\nGRY7lgYdHVrVrf+zArubs2UIdQKBgQC7pKK9DBr/3MfAiCav/+KlIqPEGPKD33dB\ndKWbRTgSm9Knwor5W+ZpKQwRi0JveJImxaIZGOfkO0LP+Ov0PMUHGvN/np1J2q1u\nbybsrhIXUr8UtrNfxR3XA5utZIMwXX1IPn1/2RxwGSoLqdAYm987oK8p2ovOW64I\nu4/nOD07zwKBgEumEXiZJf9amqbBQ2uCfWsQ/8VD7tKWvY9OoPnW6a+6YtfZ7neU\nvhTXjx8hUiMgpMeiuOv//h5UxNAS4JKxW7jXknN0eeZPKSlncFa9zX4/7PAvLzAi\nRDANAw9ISl+NTCDVVo1OV7D0/UJsWuMw733E+4GbwrjN0L4M/Mc1UP8dAoGAFSZy\nfXKO3IYrMcVm7vGdv1VPNjxFoZ2fmI4oWH8N2fMcZHJmLcMxDmtlA9k5jMz/VEV0\nhvWqtawEVOLO3cG3x5w/FARx4DA42jjHH2hje6OFDDWntETIn0K12m545wuyomEA\nzldPgEcl2Riz7wIqwFLVS5dpqMHmtO9HQh2xsTsCgYEAogTQM0jTAsw2gS4MxsO2\n6Mf1waXrJ7cWGTNgZbHALdH121p1Hf7yDhi87SHogn/UsDUUNBJzbNjgUf08zTXU\n285m4qHu2y2MszYGxX2OY2kEAJ02JeR15gpa9Vyyo8m74qqDgi6MramcT8fxcnA7\nE5TjycpmaavtmprExufU92g=\n-----END PRIVATE KEY-----\n",
+  "client_email": "mlops-project-1@rock-wonder-347805.iam.gserviceaccount.com",
+  "client_id": "102343991440631006519",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mlops-project-1%40rock-wonder-347805.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

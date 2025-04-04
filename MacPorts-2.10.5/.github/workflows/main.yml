@@ -1,0 +1,63 @@
+---
+name: "Build & Test MacPorts Base"
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, macos-13, macos-14, ubuntu-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 64
+      - name: Cleanup /usr/local
+        if: startsWith(matrix.os,'macos')
+        run: |
+          sudo mkdir /opt/local.old
+          sudo mv /usr/local/* /opt/local.old
+      - name: Select Xcode version
+        if: startsWith(matrix.os,'macos')
+        run: |
+          case "`uname -r`" in
+            22.*) sudo xcode-select --switch /Applications/Xcode_14.3.1.app/Contents/Developer
+                ;;
+            23.*) sudo xcode-select --switch /Applications/Xcode_15.3.app/Contents/Developer
+                ;;
+          esac
+      - name: Install Linux Dependencies
+        if: startsWith(matrix.os,'ubuntu')
+        run: >
+          sudo apt update &&
+          sudo apt install mtree-netbsd
+          libcurl4-openssl-dev
+      - name: Configure MacPorts Base
+        run: |
+          set -eu
+          ./standard_configure.sh
+      - name: Build MacPorts Base
+        run: |
+          set -eu
+          platform=$(uname -s)
+          case ${platform} in
+            Darwin) make -j$(sysctl -n hw.activecpu)
+            ;;
+            Linux) make -j$(nproc)
+            ;;
+          esac
+      - name: Install MacPorts Base
+        run: |
+          set -eu
+          sudo make install
+      - name: Test MacPorts Base
+        if: startsWith(matrix.os,'macos')
+        run: |
+          set -eu
+          make test
