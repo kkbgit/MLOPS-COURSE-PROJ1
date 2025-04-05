@@ -28,7 +28,7 @@ pipeline {
         stage('Set Up Venv and Install Deps') {
             steps {
                 sh """
-                vi /etc/default/jenkins
+                #vi /etc/default/jenkins
                 chown -R root:root /var/lib/jenkins
                 chown -R root:root /var/cache/jenkins
                 chown -R root:root /var/log/jenkins
