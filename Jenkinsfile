@@ -29,7 +29,7 @@ pipeline {
                 sh """
                 set -e  # Exit on error for better debugging
                 echo "Creating venv..."
-                python -m venv ${VENV_DIR}
+                python3 -m venv ${VENV_DIR}
                 echo "Activating venv..."
                 . ${VENV_DIR}/bin/activate
                 echo "Upgrading pip..."
