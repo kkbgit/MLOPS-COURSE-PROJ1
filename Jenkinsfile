@@ -30,7 +30,7 @@ pipeline {
                 sh """
                 set -e  # Exit on error for better debugging
                 echo "Creating venv..."
-                #apt install python3.11-venv
+                apt install python3.11-venv
                 python3 -m venv ${VENV_DIR} --without-pip
                 echo "Activating venv..."
                 . ${VENV_DIR}/bin/activate
