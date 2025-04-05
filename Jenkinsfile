@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.11-slim'  // Official Python image with venv support
+        }
+    }
 
     environment {
         VENV_DIR = 'venv'
@@ -22,26 +26,14 @@ pipeline {
             }
         }
 
-        stage('Setting up our Virtual Environment and Installing dependencies') {
+        stage('Setting up Virtual Environment and Installing dependencies') {
             steps {
-                script {
-                    echo 'Setting up Virtual Environment and Installing dependencies ........'
-                    sh '''
-                    # Ensure venv package is available
-                    #apt-get update
-                    sudo visudo
-                    jenkins ALL = NOPASSWD: ALL
-                    apt-get install -y python3-venv python3-pip
-
-                    # Create virtual environment
-                    python3 -m venv ${VENV_DIR}
-                    . ${VENV_DIR}/bin/activate
-
-                    # Upgrade pip and install dependencies
-                    pip install --upgrade pip
-                    pip install -e .
-                    '''
-                }
+                sh '''
+                python -m venv ${VENV_DIR}
+                . ${VENV_DIR}/bin/activate
+                pip install --upgrade pip
+                pip install -e .
+                '''
             }
         }
     }
