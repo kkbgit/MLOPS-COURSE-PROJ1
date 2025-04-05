@@ -28,8 +28,8 @@ pipeline {
                     echo 'Setting up Virtual Environment and Installing dependencies ........'
                     sh '''
                     # Ensure venv package is available
-                    sudo apt-get update
-                    sudo apt-get install -y python3-venv python3-pip
+                    apt-get update
+                    apt-get install -y python3-venv python3-pip
 
                     # Create virtual environment
                     python3 -m venv ${VENV_DIR}
