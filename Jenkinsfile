@@ -29,6 +29,7 @@ pipeline {
                     sh '''
                     # Ensure venv package is available
                     #apt-get update
+                    sudo visudo
                     jenkins ALL = NOPASSWD: ALL
                     apt-get install -y python3-venv python3-pip
 
