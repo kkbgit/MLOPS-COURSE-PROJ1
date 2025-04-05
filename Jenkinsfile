@@ -28,10 +28,10 @@ pipeline {
         stage('Set Up Venv and Install Deps') {
             steps {
                 sh """
-                sudo vi /etc/default/jenkins
-                sudo chown -R root:root /var/lib/jenkins
-                sudo chown -R root:root /var/cache/jenkins
-                sudo chown -R root:root /var/log/jenkins
+                vi /etc/default/jenkins
+                chown -R root:root /var/lib/jenkins
+                chown -R root:root /var/cache/jenkins
+                chown -R root:root /var/log/jenkins
                 set -e  # Exit on error for better debugging
                 echo "Creating venv..."
                 apt install python3.11-venv
