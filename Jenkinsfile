@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-    docker {
-        image 'python:3'  // Not slim or Debian-based
-    }
-}
+    agent any
 
     environment {
         VENV_DIR = 'venv'
