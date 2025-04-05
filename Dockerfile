@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM python3
 
 ENV PYTHONDONTWRITEBYTECODE = 1 \
     PYTHONUNBUFFERED = 1
