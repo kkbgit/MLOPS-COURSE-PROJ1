@@ -29,9 +29,7 @@ pipeline {
             steps {
                 sh """
                 #vi /etc/default/jenkins
-                chown -R root:root /var/lib/jenkins
-                chown -R root:root /var/cache/jenkins
-                chown -R root:root /var/log/jenkins
+                chown -R root:root /var/
                 set -e  # Exit on error for better debugging
                 echo "Creating venv..."
                 apt install python3.11-venv
